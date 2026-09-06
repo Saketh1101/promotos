@@ -1,0 +1,5 @@
+node_modules/
+
+# Never commit a real key. .env.example is the safe template that IS committed.
+.env
+.env.local

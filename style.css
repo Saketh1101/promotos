@@ -160,6 +160,8 @@ h1 {
   margin: 12px 0 0;
   font-size: 13px;
   color: var(--ink-soft);
+  /* render() may append a note on its own line, so honour newlines. */
+  white-space: pre-line;
 }
 
 /* The result panel starts out with the `hidden` attribute in the HTML,

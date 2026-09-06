@@ -37,7 +37,7 @@ async function improvePrompt() {
   }
 
   setLoading(true);
-  setStatus("Sending to the server...");
+  setStatus("Thinking, this can take a few seconds...");
 
   try {
     /* THE REQUEST.
@@ -76,10 +76,19 @@ async function improvePrompt() {
 // never the backend's: the backend only ever sends data back.
 function render(data) {
   resultEl.textContent = data.prompt;
+
+  // Say plainly which path produced this: the model, or the local
+  // fallback rules. Silently degrading would be worse than admitting it.
+  const source = data.mode === "model" ? `written by ${data.model}` : "written by local rules";
+
   metaEl.textContent =
-    `Detected task: ${data.taskType} · ` +
+    `${source} · ` +
+    `detected task: ${data.taskType} · ` +
     `${data.stats.inputWords} words in, ${data.stats.outputWords} words out · ` +
-    `generated ${new Date(data.generatedAt).toLocaleTimeString()}`;
+    `${new Date(data.generatedAt).toLocaleTimeString()}`;
+
+  if (data.note) metaEl.textContent += `\n${data.note}`;
+
   resultPanelEl.hidden = false;
 }
 

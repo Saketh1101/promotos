@@ -1,0 +1,25 @@
+{
+  "name": "promotos",
+  "version": "1.0.0",
+  "description": "Turns rough context into a well-structured prompt.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Saketh1101/promotos.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Saketh1101/promotos/issues"
+  },
+  "homepage": "https://github.com/Saketh1101/promotos#readme",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.124.0"
+  }
+}

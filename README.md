@@ -5,12 +5,15 @@ Turns rough context into a well-structured prompt.
 ## Run it
 
 ```
+npm install
+cp .env.example .env     # then paste your real key into .env
 node server.js
 ```
 
 Then open http://localhost:3000
 
-No installs, no dependencies. Node's built-in modules only.
+Without a key it still runs. It falls back to local keyword rules and
+says so in the UI, rather than erroring.
 
 ## Files
 
@@ -19,7 +22,8 @@ No installs, no dependencies. Node's built-in modules only.
 | `index.html` | client | structure and content of the page |
 | `style.css` | client | how the page looks |
 | `app.js` | client | reacts to clicks, calls the API, renders the reply |
-| `server.js` | server | serves the files, and answers `POST /api/improve` |
+| `server.js` | server | serves the files, routes HTTP, nothing else |
+| `improver.js` | server | calls Claude, falls back to local rules on any failure |
 
 ## Where each Phase 1 concept lives in the code
 
@@ -41,7 +45,8 @@ No installs, no dependencies. Node's built-in modules only.
 | API | everything under `/api/` |
 | Endpoint | `POST /api/improve` |
 | JSON | `JSON.stringify` in `app.js`, `JSON.parse` in `readJsonBody()` |
-| Data flow | `app.js improvePrompt()` → `server.js handleImprove()` → back to `render()` |
+| Data flow | `app.js improvePrompt()` → `server.js handleImprove()` → `improver.js improve()` → back to `render()` |
+| Secrets stay server-side | `ANTHROPIC_API_KEY` is read in `improver.js` only, never sent to the browser |
 
 ## The whole loop, in order
 
@@ -56,8 +61,20 @@ No installs, no dependencies. Node's built-in modules only.
 8. user reads the improved prompt
 ```
 
-## Not here yet, on purpose
+## Phase 2: the model call
 
-The prompt is built by plain rules in `buildPrompt()`, not by an AI model.
-Phase 1 is about the wiring. When a model gets added later it slots into
-that one function and nothing else has to change.
+`improver.js` now calls `claude-opus-5` to do the rewriting. Two things
+matter about how it is wired:
+
+**It never hard-fails.** No key, a rejected key, a rate limit, a network
+drop, or a model refusal all fall back to the Phase 1 keyword rules. The
+response says which path ran via its `mode` field, and the UI shows it.
+Degrading silently would be worse than degrading loudly.
+
+**The key never reaches the browser.** It is read in `improver.js`, which
+runs only on the server. `.env` is gitignored; `.env.example` is the
+committed template. This is the practical payoff of the client/server
+split: `app.js` is readable by anyone who visits, `improver.js` is not.
+
+Tuning knob: `output_config.effort` in `improver.js`. Raise to `high` for
+better prompts, drop to `low` for faster ones.
