@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Promotos</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+
+  <body>
+    <main class="page">
+      <header class="header">
+        <h1>Promotos</h1>
+        <p class="tagline">Turn rough context into a well-structured prompt.</p>
+      </header>
+
+      <section class="panel">
+        <label class="label" for="context">Your context</label>
+        <textarea
+          id="context"
+          class="textarea"
+          rows="7"
+          placeholder="e.g. i need to email my landlord about the broken heater, third time asking, want to sound firm but not rude"
+        ></textarea>
+
+        <div class="controls">
+          <button id="improve-btn" class="button">Improve my prompt</button>
+          <span id="status" class="status" role="status"></span>
+        </div>
+      </section>
+
+      <section id="result-panel" class="panel result-panel" hidden>
+        <div class="result-head">
+          <h2 class="result-title">Improved prompt</h2>
+          <button id="copy-btn" class="button button-ghost">Copy</button>
+        </div>
+        <pre id="result" class="result"></pre>
+        <p id="meta" class="meta"></p>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

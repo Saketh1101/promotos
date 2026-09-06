@@ -1,0 +1,175 @@
+/* ---------------------------------------------------------------
+   CSS = presentation. It never decides WHAT is on the page (HTML's
+   job) and never decides WHAT HAPPENS on click (JavaScript's job).
+   It only decides how things look.
+   --------------------------------------------------------------- */
+
+/* Design tokens: named values reused everywhere, so one edit here
+   changes the whole page. */
+:root {
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --ink: #1a1d21;
+  --ink-soft: #5b6472;
+  --line: #e2e5ea;
+  --accent: #2f6df6;
+  --accent-ink: #ffffff;
+  --radius: 10px;
+}
+
+/* A "selector" picks elements; the block sets properties on them. */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  line-height: 1.5;
+}
+
+.page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 48px 20px 80px;
+}
+
+.header {
+  margin-bottom: 28px;
+}
+
+h1 {
+  margin: 0 0 6px;
+  font-size: 32px;
+  letter-spacing: -0.02em;
+}
+
+.tagline {
+  margin: 0;
+  color: var(--ink-soft);
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 15px;
+  resize: vertical;
+}
+
+/* A pseudo-class: styles that apply only in a certain state. */
+.textarea:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+  border-color: var(--accent);
+}
+
+/* Flexbox: lay children out in a row and space them apart. */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.button {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.button:hover {
+  filter: brightness(0.94);
+}
+
+.button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.button-ghost {
+  background: transparent;
+  color: var(--ink-soft);
+  border: 1px solid var(--line);
+  padding: 6px 12px;
+  font-size: 13px;
+}
+
+.status {
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+.status.error {
+  color: #c0392b;
+}
+
+.result-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.result-title {
+  margin: 0;
+  font-size: 16px;
+}
+
+.result {
+  margin: 0;
+  padding: 16px;
+  background: #f2f4f7;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13.5px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+
+.meta {
+  margin: 12px 0 0;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+/* The result panel starts out with the `hidden` attribute in the HTML,
+   and app.js removes it once a reply arrives. Browsers hide [hidden]
+   elements by default, but any `display` rule would silently override
+   that, so state it explicitly rather than relying on luck. */
+[hidden] {
+  display: none !important;
+}
+
+.result-panel {
+  border-left: 3px solid var(--accent);
+}
